@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IER - Acceso Privado</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #d4af37;
+            --bg: #ffffff;
+            --text: #1a1a1a;
+            --accent: #f8f9fa;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+
+        /* --- CAPA DE SEGURIDAD (CON CIFRADO) --- */
+        #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0a0a0c; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--primary); }
+        .login-box { text-align: center; padding: 40px; border: 1px solid #333; border-radius: 15px; background: #16161c; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .login-box h2 { margin-bottom: 25px; font-family: 'Cinzel', serif; letter-spacing: 3px; }
+        .login-box input { padding: 12px; border-radius: 5px; border: 1px solid #444; text-align: center; width: 220px; margin-bottom: 20px; display: block; background: #1a1a1a; color: white; }
+        .login-box button { padding: 12px 40px; cursor: pointer; background: var(--primary); border: none; border-radius: 5px; font-weight: bold; text-transform: uppercase; transition: 0.3s; }
+        .login-box button:hover { background: #b8962f; }
+
+        /* --- HERO --- */
+        .hero-section { background: linear-gradient(135deg, #0a0a0c 0%, #1a1a1a 100%); height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; border-bottom: 4px solid var(--primary); }
+        .logo-box { border: 2px solid var(--primary); padding: 15px 40px; margin-bottom: 20px; }
+        .logo-text { font-family: 'Cinzel', serif; font-size: 3.5rem; color: #fff; letter-spacing: 8px; }
+        .subtitle { color: var(--primary); font-weight: 400; letter-spacing: 4px; text-transform: uppercase; font-size: 0.9rem; }
+
+        /* --- NUEVA TARJETA: QUIÉNES SOMOS ELEGANTE --- */
+        .about-card { background: linear-gradient(135deg, #0d0d11 0%, #16161c 100%); border: 1px solid #23232a; border-left: 4px solid var(--primary); border-radius: 16px; padding: 35px 40px; margin: 40px auto 10px auto; max-width: 900px; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); }
+        .about-header { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
+        .about-header i { color: var(--primary); font-size: 1.4rem; }
+        .about-title { font-size: 1.4rem; color: #ffffff; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+        .about-text { color: #c5c5ca; font-size: 1.1rem; max-width: 750px; font-weight: 300; line-height: 1.7; }
+        .about-text strong { color: #ffffff; font-weight: 600; }
+
+        /* --- SECCIONES GENÉRICAS --- */
+        .section-wrapper { width: 100%; padding: 80px 20px; }
+        .section-wrapper.bg-alt { background-color: #f9f9f9; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .section-title { font-size: 1.8rem; text-align: center; margin-bottom: 50px; font-weight: 700; position: relative; }
+        .section-title::after { content: ''; display: block; width: 40px; height: 3px; background: var(--primary); margin: 15px auto; }
+        .main-intro { font-size: 1.5rem; font-weight: 600; text-align: center; margin-bottom: 30px; }
+        .description-text { color: #555; text-align: justify; margin-bottom: 40px; }
+        .highlight-box { background: var(--accent); border-left: 4px solid var(--primary); padding: 30px; font-style: italic; border-radius: 0 12px 12px 0; }
+
+        /* --- CARDS Y GRIDS --- */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .card { background: #fff; padding: 35px 20px; border: 1px solid #eee; border-radius: 12px; transition: var(--transition); text-align: center; }
+        .card i { font-size: 2.5rem; color: var(--primary); margin-bottom: 15px; display: block; }
+        .card h3 { font-size: 1.2rem; font-weight: 600; color: var(--text); }
+        .card:hover { border-color: var(--primary); transform: translateY(-10px); box-shadow: 0 20px 30px rgba(0,0,0,0.05); }
+
+        /* --- PLATAFORMAS --- */
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .platform-card { background: #ffffff; border: 1px solid #eee; padding: 40px; border-radius: 16px; text-align: center; transition: var(--transition); }
+        .platform-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .brand-logo-poly { color: #004BFF; font-weight: 800; font-size: 1.4rem; margin-bottom: 5px; }
+        .brand-logo-kalshi { color: #049a74; font-weight: 800; font-size: 1.4rem; margin-bottom: 5px; letter-spacing: 1px; }
+
+        /* --- BOTONES DE ACCESO --- */
+        .platform-block { margin-bottom: 45px; }
+        .platform-block:last-child { margin-bottom: 0; }
+        .platform-label { text-align: center; font-size: 1.1rem; font-weight: 700; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .direct-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+        .btn { padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: var(--transition); border: 1px solid transparent; text-align: center; min-width: 140px; }
+        .btn-dark { background: #1a1a1a; color: #fff; }
+        .btn-dark:hover { background: var(--primary); color: #000; }
+        .btn-kalshi { background: #049a74; color: #fff; }
+        .btn-kalshi:hover { background: #026b51; }
+
+        /* --- SECCIÓN DRIVE RECURSOS --- */
+        .final-doc-section { background: #1a1a1a; color: #fff; text-align: center; border-radius: 20px; padding: 60px 40px; margin: 40px auto; max-width: 900px; }
+        .cta-button { display: inline-block; padding: 18px 40px; background: var(--primary); color: #000; border-radius: 50px; font-weight: 700; text-decoration: none; margin-top: 25px; transition: var(--transition); }
+        .cta-button:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); }
+        .final-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 50px; }
+        .final-link { padding: 15px; border: 1px solid #eaeaea; border-radius: 8px; text-decoration: none; color: #333; font-weight: 500; transition: var(--transition); display: block; text-align: center; background: #fff; }
+        .final-link:hover { border-color: var(--primary); background: var(--accent); color: var(--text); font-weight: 600; }
+
+        /* --- SECCIÓN GEMINI IA --- */
+        .gemini-section { background: linear-gradient(135deg, #0f1115 0%, #1a1d24 100%); border: 1px solid #2d323f; border-left: 4px solid #4285f4; border-radius: 16px; padding: 40px; margin: 60px auto 20px auto; max-width: 900px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .gemini-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .gemini-logo-svg { width: 45px; height: 45px; animation: pulseGemini 3s infinite ease-in-out; }
+        .gemini-title { font-family: 'Inter', sans-serif; font-size: 1.6rem; color: #ffffff; font-weight: 700; letter-spacing: 1px; }
+        .gemini-title span { color: #4285f4; }
+        .gemini-text { color: #b0b5c1; font-size: 1.05rem; max-width: 650px; margin-bottom: 30px; font-weight: 300; }
+        .gemini-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; width: 100%; }
+        .btn-gemini-web { background: #4285f4; color: #ffffff; display: flex; align-items: center; gap: 10px; border: 1px solid transparent; }
+        .btn-gemini-web:hover { background: #3367d6; transform: translateY(-2px); }
+        .btn-gemini-app { background: transparent; color: #ffffff; border: 1px solid #454d5e; display: flex; align-items: center; gap: 10px; }
+        .btn-gemini-app:hover { background: #232730; border-color: #4285f4; transform: translateY(-2px); }
+        @keyframes pulseGemini { 0% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(66,133,244,0.4)); } 50% { transform: scale(1.06); filter: drop-shadow(0 0 12px rgba(66,133,244,0.8)); } 100% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(66,133,244,0.4)); } }
+
+        /* --- FOOTER MINIMALISTA --- */
+        .main-footer { background-color: #0d0d0f; color: #56565c; padding: 40px 20px; font-size: 0.8rem; border-top: 2px solid #1a1a1f; text-align: center; }
+        .footer-container { max-width: 900px; margin: 0 auto; }
+    </style>
+</head>
+<body>
+
+    <div id="login-overlay">
+        <div class="login-box">
+            <h2>ACCESO IER</h2>
+            <input type="password" id="passInput" placeholder="Introduce clave...">
+            <button onclick="checkPass()">Entrar</button>
+        </div>
+    </div>
+
+    <script>
+        function checkPass() {
+            var pass = document.getElementById("passInput").value;
+            // "Cannes" en Base64 es Q2FubmVz
+            var secret = "Q2FubmVz"; 
+
+            if (btoa(pass) === secret) { 
+                document.getElementById("login-overlay").style.display = "none";
+            } else {
+                alert("Contraseña incorrecta, inténtalo de nuevo.");
+            }
+        }
+    </script>
+
+    <div id="app-content">
+        <header class="hero-section">
+            <div class="logo-box"><span class="logo-text">IER</span></div>
+            <h1 class="subtitle">Semi-Arbitraje en Predicciones de Entretenimiento</h1>
+        </header>
+
+        <div class="container" style="padding: 0 20px;">
+            <div class="about-card">
+                <div class="about-header">
+                    <i class="fa-solid fa-users-gear"></i>
+                    <h2 class="about-title">Quiénes Somos</h2>
+                </div>
+                <p class="about-text">
+                    Somos un group pequeño de <strong>Analistas y Capturistas de Datos</strong> enfocados principalmente en el sector de <strong>entretenimiento de predicciones</strong>, desde 2024.
+                </p>
+            </div>
+        </div>
+
+        <div class="section-wrapper" style="padding-top: 40px;">
+            <section class="container">
+                <p class="main-intro">La asignación de capital en los mercados de entretenimiento representa una de las mayores oportunidades de obtener ganancias constantemente.</p>
+                <p class="description-text">A diferencia de los mercados tradicionales, sectores como el cine, las plataformas de streaming y la televisión cuentan con una ventaja única. Este ecosistema no solo está respaldado por analistas expertos, sino también por comunidades globales altamente especializadas que han demostrado ser capaces de predecir con gran efectividad. Nosotros solo vamos a invertir en los momentos justos cuando ellos ya hayan decidido qué es lo que hará el mercado de predicciones de entretenimiento.</p>
+                <div class="highlight-box">En términos de previsibilidad y mitigación de riesgo, este modelo demuestra una efectividad significativamente mayor que las inversiones en categorías tradicionales como las finanzas o los deportes.</div>
+            </section>
+        </div>
+
+        <div class="section-wrapper bg-alt">
+            <section class="container">
+                <h2 class="section-title">Categorías de Enfoque</h2>
+                <div class="grid-3">
+                    <div class="card"><i class="fa-solid fa-film"></i><h3>Películas</h3></div>
+                    <div class="card"><i class="fa-solid fa-tv"></i><h3>Programas de TV</h3></div>
+                    <div class="card"><i class="fa-solid fa-clapperboard"></i><h3>Streaming</h3></div>
+                </div>
+            </section>
+        </div>
+
+        <div class="section-wrapper">
+            <section class="container">
+                <h2 class="section-title">Plataformas</h2>
+                <div class="grid-2">
+                    <div class="platform-card">
+                        <div class="brand-logo-poly">Polymarket</div>
+                        <p>Líder Global No Regulado (Cripto)</p>
+                    </div>
+                    <div class="platform-card">
+                        <div class="brand-logo-kalshi">KALSHI</div>
+                        <p>Plataforma Regulada CFTC</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="section-wrapper bg-alt">
+            <section class="container">
+                <h2 class="section-title">Acceso Directo</h2>
+                
+                <div class="platform-block">
+                    <p class="platform-label" style="color: #004BFF;">Polymarket</p>
+                    <div class="direct-container">
+                        <a href="https://polymarket.com/es/pop-culture/movies" class="btn btn-dark" target="_blank">Películas</a>
+                        <a href="https://polymarket.com/es/pop-culture/reality-tv" class="btn btn-dark" target="_blank">Televisión</a>
+                        <a href="https://polymarket.com/es/pop-culture/pop-culture" class="btn btn-dark" target="_blank">Streaming</a>
+                    </div>
+                </div>
+
+                <div class="platform-block">
+                    <p class="platform-label" style="color: #049a74;">Kalshi</p>
+                    <div class="direct-container">
+                        <a href="https://kalshi.com/category/culture/movies" class="btn btn-kalshi" target="_blank">Películas</a>
+                        <a href="https://kalshi.com/category/culture/television" class="btn btn-kalshi" target="_blank">Televisión</a>
+                        <a href="https://kalshi.com/category/culture" class="btn btn-kalshi" target="_blank">Streaming / Cultura</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="container" style="padding: 0 20px;">
+            <div class="final-doc-section">
+                <h2>Recursos y Herramientas</h2>
+                <p style="color: #ccc; margin-top: 10px; font-weight: 300;">Accede a nuestra carpeta compartida para revisar metodologías de inversión, datos estructurados y plantillas de mitigación de riesgo.</p>
+                <a href="https://drive.google.com/drive/folders/1I_6qVQNPadinEIFzYxV5jx1bIHM_M4lD" class="cta-button" target="_blank">Ver Carpeta en Google Drive ↗</a>
+            </div>
+        </div>
+
+        <div class="section-wrapper">
+            <section class="container">
+                <h2 class="section-title">Noticias y Chismes</h2>
+                <div class="final-grid">
+                    <a href="https://variety.com/c/film/" class="final-link" target="_blank">Variety</a>
+                    <a href="https://deadline.com/category/film/" class="final-link" target="_blank">Deadline</a>
+                    <a href="https://www.hollywoodreporter.com/c/movies/" class="final-link" target="_blank">THR</a>
+                </div>
+
+                <h2 class="section-title" style="margin-top: 60px;">Taquilla</h2>
+                <div class="final-grid">
+                    <a href="https://www.boxofficemojo.com/" class="final-link" target="_blank">Box Office Mojo</a>
+                    <a href="https://www.the-numbers.com/" class="final-link" target="_blank">The Numbers</a>
+                </div>
+
+                <h2 class="section-title" style="margin-top: 60px;">Foros</h2>
+                <div class="final-grid">
+                    <a href="https://www.reddit.com/r/boxoffice/" class="final-link" target="_blank">r/BoxOffice</a>
+                    <a href="https://forums.boxofficetheory.com/" class="final-link" target="_blank">Box Office Theory</a>
+                </div>
+
+                <h2 class="section-title" style="margin-top: 60px;">Métricas Streaming</h2>
+                <div class="final-grid">
+                    <a href="https://www.netflix.com/tudum/top10" class="final-link" target="_blank">Netflix Top 10</a>
+                    <a href="https://flixpatrol.com/top10/netflix/world/2026-05-22/" class="final-link" target="_blank">FlixPatrol</a>
+                </div>
+
+                <h2 class="section-title" style="margin-top: 60px;">Calendario de Estrenos</h2>
+                <div class="final-grid">
+                    <a href="https://www.imdb.com/calendar/" class="final-link" target="_blank">IMDb</a>
+                    <a href="https://www.boxofficemojo.com/schedule/" class="final-link" target="_blank">BOM Schedule</a>
+                </div>
+
+                <div class="gemini-section">
+                    <div class="gemini-header">
+                        <svg class="gemini-logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C12 2 13 7.5 15.5 10C18 12.5 23.5 12 23.5 12C23.5 12 18 13.5 15.5 16C13 18.5 12 24 12 24C12 24 11 18.5 8.5 16C6 13.5 0.5 12 0.5 12C0.5 12 6 11 8.5 8.5C11 6 12 2 12 2Z" fill="url(#gemini-grad)"/>
+                            <defs>
+                                <linearGradient id="gemini-grad" x1="0.5" y1="2" x2="23.5" y2="24" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#9bc5ff"/>
+                                    <stop offset="50%" stop-color="#4285f4"/>
+                                    <stop offset="100%" stop-color="#2b529a"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <h2 class="gemini-title">Asistente <span>Gemini IA</span></h2>
+                    </div>
+                    <p class="gemini-text">Cualquier duda que tengas, puedes preguntarle a <strong>Gemini IA</strong>, el mejor asistente en tiempo real para análisis de tendencias y validación de datos.</p>
+                    <div class="gemini-actions">
+                        <a href="https://gemini.google.com" class="btn btn-gemini-web" target="_blank">
+                            <i class="fa-solid fa-globe"></i> Usar Página Web
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.bard" class="btn btn-gemini-app" target="_blank">
+                            <i class="fa-solid fa-mobile-screen-button"></i> Descargar App Móvil
+                        </a>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+        <footer class="main-footer">
+            <div class="footer-container">
+                <p>&copy; 2026 IER. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
