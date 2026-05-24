@@ -277,19 +277,5 @@
             </div>
         </footer>
     </div>
-    
-    <!-- Script para intentar forzar la apertura en Chrome (Intent) -->
-    <script>
-        document.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                var url = this.getAttribute('href');
-                if (url && url.startsWith('http')) {
-                    e.preventDefault();
-                    // Este es el intent de Android para Chrome
-                    window.location.href = 'intent://' + url.replace(/https?:\/\//, '') + '#Intent;scheme=https;package=com.android.chrome;end';
-                }
-            });
-        });
-    </script>
 </body>
 </html>
